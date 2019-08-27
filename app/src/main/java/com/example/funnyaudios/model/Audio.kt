@@ -5,7 +5,8 @@ data class Audio(
     val name: String = "",
     val description: String = "",
     val category: String = "",
-    val authors: List<String> = listOf()
+    val authors: List<String> = listOf(),
+    val url: String = ""
 )
 
 enum class Category {
