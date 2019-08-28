@@ -1,5 +1,6 @@
 package com.example.funnyaudios.view
 
+import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
@@ -17,7 +18,7 @@ import com.example.funnyaudios.model.Audio
 import com.example.funnyaudios.viewmodel.AudioListViewModel
 import kotlinx.android.synthetic.main.audio_list_fragment.*
 
-class AudioListFragment : Fragment(), AudioListAdapter.AuidoListener {
+class AudioListFragment : Fragment() {
 
     companion object {
         val AUTHOR_NAME = "author_name"
@@ -34,8 +35,20 @@ class AudioListFragment : Fragment(), AudioListAdapter.AuidoListener {
     private lateinit var viewModel: AudioListViewModel
     private lateinit var adapter: AudioListAdapter
     private lateinit var author: String
-    private var mediaPlayer: MediaPlayer? = null
-    private var nowPlaying: String? = null
+    private var listener: MediaListener? = null
+
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (context is MediaListener) {
+            listener = context
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,33 +71,8 @@ class AudioListFragment : Fragment(), AudioListAdapter.AuidoListener {
         viewModel.getAudios(author)
 
         recyclerViewAudio.layoutManager = LinearLayoutManager(context)
-        adapter = AudioListAdapter(this)
+        adapter = AudioListAdapter(listener)
         recyclerViewAudio.adapter = this.adapter
-    }
-
-    override fun onPlayClicked(audio: Audio) {
-        when {
-            audio.id != nowPlaying -> initPlayer(audio)
-            mediaPlayer?.isPlaying == true -> mediaPlayer?.pause()
-            else -> mediaPlayer?.start()
-        }
-    }
-
-    override fun onSharedClicked(audio: Audio) {
-    }
-
-    private fun initPlayer(audio: Audio) {
-        killMediaPlayer()
-        mediaPlayer = MediaPlayer.create(context, Uri.parse(audio.url))
-        mediaPlayer?.setOnCompletionListener { killMediaPlayer() }
-        mediaPlayer?.start()
-        nowPlaying = audio.id
-    }
-
-    private fun killMediaPlayer() {
-        mediaPlayer?.reset()
-        mediaPlayer?.release()
-        mediaPlayer = null
     }
 
     private fun updateList(audios: List<Audio>) {

@@ -17,8 +17,17 @@ class AudioListViewModel : ViewModel() {
         db.collection("audio")
             .whereEqualTo("author", author)
             .get()
-            .addOnSuccessListener { response ->
-                val audios = response.toObjects(Audio::class.java)
+            .addOnSuccessListener { documents ->
+                val audios =
+                    documents.map {
+                        Audio(
+                            id = it.id,
+                            name = it.data["name"].toString(),
+                            url = it.data["url"].toString(),
+                            author = it.data["author"].toString(),
+                            duration = it.data["duration"].toString()
+                        )
+                    }
                 liveDataAudios.postValue(audios)
             }
             .addOnFailureListener { exception ->

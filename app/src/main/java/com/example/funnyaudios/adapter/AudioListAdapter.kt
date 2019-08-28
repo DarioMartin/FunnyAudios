@@ -6,15 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.funnyaudios.R
 import com.example.funnyaudios.model.Audio
+import com.example.funnyaudios.view.MediaListener
 import kotlinx.android.synthetic.main.audio_list_item.view.*
 
-class AudioListAdapter(val listener: AuidoListener) :
+class AudioListAdapter(val listener: MediaListener?) :
     RecyclerView.Adapter<AudioListAdapter.AudiosViewHolder>() {
-
-    interface AuidoListener {
-        fun onPlayClicked(audio: Audio)
-        fun onSharedClicked(audio: Audio)
-    }
 
     private val audios = mutableListOf<Audio>()
 
@@ -40,7 +36,7 @@ class AudioListAdapter(val listener: AuidoListener) :
         fun bindItem(position: Int) {
             val audio = audios[position]
             itemView.name.text = audio.name
-            itemView.playButton.setOnClickListener { listener.onPlayClicked(audio) }
+            itemView.playButton.setOnClickListener { listener?.onPlayClicked(audio) }
         }
 
     }
