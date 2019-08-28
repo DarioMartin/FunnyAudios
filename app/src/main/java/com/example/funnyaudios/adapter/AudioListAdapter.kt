@@ -39,7 +39,6 @@ class AudioListAdapter(val listener: AuidoListener) :
         fun bindItem(position: Int) {
             val audio = audios[position]
             itemView.name.text = audio.name
-            itemView.description.text = audio.description
             itemView.playButton.setOnClickListener { listener.onPlayClicked(audio) }
         }
 
