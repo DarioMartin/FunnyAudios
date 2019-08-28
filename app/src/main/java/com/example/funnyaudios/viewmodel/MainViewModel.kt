@@ -6,20 +6,20 @@ import androidx.lifecycle.ViewModel
 import com.example.funnyaudios.model.Audio
 import com.google.firebase.firestore.FirebaseFirestore
 
-class AudioListViewModel : ViewModel() {
+class MainViewModel : ViewModel() {
 
-    private val TAG = AudioListViewModel::class.java.simpleName
+    private val TAG = MainViewModel::class.java.simpleName
 
     private val db = FirebaseFirestore.getInstance()
-    var liveDataAudios = MutableLiveData<List<Audio>>()
+    var liveDataAuthors = MutableLiveData<List<String>>()
 
-    fun getAudios(author: String) {
+    init {
         db.collection("audio")
-            .whereEqualTo("author", author)
             .get()
             .addOnSuccessListener { response ->
                 val audios = response.toObjects(Audio::class.java)
-                liveDataAudios.postValue(audios)
+                val authors = audios.groupBy { it.author }.keys.toList().sorted()
+                liveDataAuthors.postValue(authors)
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting audios", exception)

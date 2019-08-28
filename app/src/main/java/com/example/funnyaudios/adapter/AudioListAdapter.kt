@@ -30,7 +30,8 @@ class AudioListAdapter(val listener: AuidoListener) :
         vh.bindItem(position)
     }
 
-    fun addAudios(audios: List<Audio>) {
+    fun setAudios(audios: List<Audio>) {
+        this.audios.clear()
         this.audios.addAll(audios)
         notifyDataSetChanged()
     }
