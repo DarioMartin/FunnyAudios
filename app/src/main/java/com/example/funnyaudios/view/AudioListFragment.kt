@@ -20,11 +20,20 @@ import kotlinx.android.synthetic.main.audio_list_fragment.*
 class AudioListFragment : Fragment(), AudioListAdapter.AuidoListener {
 
     companion object {
-        fun newInstance() = AudioListFragment()
+        val AUTHOR_NAME = "author_name"
+
+        fun newInstance(author: String): Fragment {
+            val fragment = AudioListFragment()
+            val args = Bundle()
+            args.putString(AUTHOR_NAME, author)
+            fragment.arguments = args
+            return fragment
+        }
     }
 
     private lateinit var viewModel: AudioListViewModel
     private lateinit var adapter: AudioListAdapter
+    private lateinit var author: String
     private var mediaPlayer: MediaPlayer? = null
     private var nowPlaying: String? = null
 
@@ -33,16 +42,25 @@ class AudioListFragment : Fragment(), AudioListAdapter.AuidoListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        author = arguments?.getString(AUTHOR_NAME) ?: ""
         return inflater.inflate(R.layout.audio_list_fragment, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProviders.of(this).get(AudioListViewModel::class.java)
+
+        viewModel.liveDataAudios.observe(
+            viewLifecycleOwner,
+            Observer { audios -> updateList(audios) })
+
+        viewModel.getAudios(author)
+
         recyclerViewAudio.layoutManager = LinearLayoutManager(context)
         adapter = AudioListAdapter(this)
         recyclerViewAudio.adapter = this.adapter
     }
-
 
     override fun onPlayClicked(audio: Audio) {
         when {
@@ -69,17 +87,8 @@ class AudioListFragment : Fragment(), AudioListAdapter.AuidoListener {
         mediaPlayer = null
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(AudioListViewModel::class.java)
-
-        viewModel.liveDataAudios.observe(
-            viewLifecycleOwner,
-            Observer { audios -> updateList(audios) })
-    }
-
     private fun updateList(audios: List<Audio>) {
-        adapter.addAudios(audios)
+        adapter.setAudios(audios)
     }
 
 }

@@ -5,7 +5,7 @@ data class Audio(
     val name: String = "",
     val description: String = "",
     val category: String = "",
-    val authors: List<String> = listOf(),
+    val author: String = "",
     val url: String = ""
 )
 
