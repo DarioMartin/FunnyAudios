@@ -37,6 +37,7 @@ class AudioListAdapter(val listener: MediaListener?) :
             val audio = audios[position]
             itemView.name.text = audio.name
             itemView.playButton.setOnClickListener { listener?.onPlayClicked(audio) }
+            itemView.duration.text = audio.duration
         }
 
     }
