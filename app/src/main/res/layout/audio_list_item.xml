@@ -39,7 +39,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/playButton"
+        android:id="@+id/playPauseButton"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="12dp"
@@ -56,10 +56,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="12dp"
-        app:layout_constraintBottom_toBottomOf="@id/playButton"
+        app:layout_constraintBottom_toBottomOf="@id/playPauseButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/playButton"
-        app:layout_constraintTop_toTopOf="@id/playButton" />
+        app:layout_constraintStart_toEndOf="@id/playPauseButton"
+        app:layout_constraintTop_toTopOf="@id/playPauseButton" />
 
     <TextView
         android:id="@+id/duration"

@@ -1,8 +1,6 @@
 package com.example.funnyaudios.view
 
 import android.content.Context
-import android.media.MediaPlayer
-import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,6 +14,7 @@ import com.example.funnyaudios.R
 import com.example.funnyaudios.adapter.AudioListAdapter
 import com.example.funnyaudios.model.Audio
 import com.example.funnyaudios.viewmodel.AudioListViewModel
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.audio_list_fragment.*
 
 class AudioListFragment : Fragment() {
@@ -32,6 +31,7 @@ class AudioListFragment : Fragment() {
         }
     }
 
+    lateinit var subscription: Disposable
     private lateinit var viewModel: AudioListViewModel
     private lateinit var adapter: AudioListAdapter
     private lateinit var author: String
@@ -59,6 +59,15 @@ class AudioListFragment : Fragment() {
         return inflater.inflate(R.layout.audio_list_fragment, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+        adapter.addSubscription((activity as MainActivity).subject)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        adapter.disposeSubscription()
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
