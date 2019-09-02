@@ -4,7 +4,6 @@ import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,7 +13,6 @@ import com.example.funnyaudios.model.Audio
 import com.example.funnyaudios.viewmodel.MainViewModel
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_main.*
 
 interface MediaListener {
@@ -31,7 +29,6 @@ class MainActivity : AppCompatActivity(), MediaListener {
     private var nowPlaying: String? = null
 
     var subject: BehaviorSubject<PlayerState> = BehaviorSubject.create()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
