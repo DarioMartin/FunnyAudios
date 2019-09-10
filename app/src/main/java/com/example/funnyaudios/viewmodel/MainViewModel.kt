@@ -18,7 +18,11 @@ class MainViewModel : ViewModel() {
             .get()
             .addOnSuccessListener { response ->
                 val audios = response.toObjects(Audio::class.java)
-                val authors = audios.groupBy { it.author }.keys.toList().sorted()
+                val authors: MutableList<String> = audios.groupBy { it.author }.keys.toMutableList()
+                val others = authors.find { it.contains("Pira") }
+                authors.remove(others)
+                authors.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it })
+                others?.let { authors.add(it) }
                 liveDataAuthors.postValue(authors)
             }
             .addOnFailureListener { exception ->

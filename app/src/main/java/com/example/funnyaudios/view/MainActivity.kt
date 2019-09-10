@@ -4,7 +4,6 @@ import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.funnyaudios.R
@@ -15,6 +14,9 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import androidx.core.app.ShareCompat
+import androidx.viewpager.widget.ViewPager
+import android.view.WindowManager
+import androidx.core.content.ContextCompat
 
 
 interface MediaListener {
@@ -30,6 +32,26 @@ class MainActivity : AppCompatActivity(), MediaListener {
     private val adapter = TabAdapter(supportFragmentManager)
     private var mediaPlayer: MediaPlayer? = null
     private var nowPlaying: String? = null
+
+    private val backgrounds = listOf(
+        R.drawable.app_bg_1,
+        R.drawable.app_bg_2,
+        R.drawable.app_bg_3,
+        R.drawable.app_bg_4,
+        R.drawable.app_bg_5,
+        R.drawable.app_bg_6,
+        R.drawable.app_bg_7
+    )
+
+    private val statusBarColors = listOf(
+        R.color.status_bar_1,
+        R.color.status_bar_2,
+        R.color.status_bar_3,
+        R.color.status_bar_4,
+        R.color.status_bar_5,
+        R.color.status_bar_6,
+        R.color.status_bar_7
+    )
 
     var subject: BehaviorSubject<PlayerState> = BehaviorSubject.create()
 
@@ -49,6 +71,34 @@ class MainActivity : AppCompatActivity(), MediaListener {
             Observable.create { emitter -> emitter.onNext(getPlayerState()) }
         observable.subscribe(subject)
 
+        setUpViewPager()
+    }
+
+    private fun setUpViewPager() {
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                val selBg = position % backgrounds.size
+                container.background = getDrawable(backgrounds[selBg])
+                updateStatusBarColor(position)
+            }
+        })
+    }
+
+    private fun updateStatusBarColor(position: Int) {
+        val window = window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        val selColor = position % statusBarColors.size
+        window.statusBarColor = ContextCompat.getColor(this, statusBarColors[selColor])
     }
 
     private fun updateAuthors(authors: List<String>) {
@@ -85,16 +135,12 @@ class MainActivity : AppCompatActivity(), MediaListener {
     }
 
 
-    private fun getPlayerState(): PlayerState {
-        val playerState = PlayerState(
-            nowPlaying,
-            mediaPlayer?.isPlaying == true,
-            mediaPlayer?.currentPosition ?: 0,
-            mediaPlayer?.duration ?: 0
-        )
-        Log.d("GAGA", playerState.toString())
-        return playerState
-    }
+    private fun getPlayerState() = PlayerState(
+        nowPlaying,
+        mediaPlayer?.isPlaying == true,
+        mediaPlayer?.currentPosition ?: 0,
+        mediaPlayer?.duration ?: 0
+    )
 
     private fun killMediaPlayer() {
         playerPause()

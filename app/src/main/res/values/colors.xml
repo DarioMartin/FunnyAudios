@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ff7e83</color>
+    <color name="colorPrimary">#ff7f84</color>
     <color name="colorPrimaryDark">#c84d56</color>
     <color name="colorPrimaryLight">#ffb0b2</color>
     <color name="colorAccent">#FFFFFF</color>
-    <color name="purple">#4f3aef</color>
     <color name="white">#fff</color>
     <color name="white_50">#80ffffff</color>
 
+    <color name="status_bar_1">@color/colorPrimaryDark</color>
+    <color name="gradient_1_top">@color/colorPrimary</color>
+    <color name="gradient_1_bottom">#4f3aef</color>
+
+    <color name="status_bar_2">#ca4cb6</color>
+    <color name="gradient_2_top">#ff7fe9</color>
+    <color name="gradient_2_bottom">#ffa154</color>
+
+    <color name="status_bar_3">#c70053</color>
+    <color name="gradient_3_top">#ff4f7f</color>
+    <color name="gradient_3_bottom">#3ac0e5</color>
+
+    <color name="status_bar_4">#c8a200</color>
+    <color name="gradient_4_top">#ffd346</color>
+    <color name="gradient_4_bottom">#ff8282</color>
+
+    <color name="status_bar_5">#c96163</color>
+    <color name="gradient_5_top">#ff9191</color>
+    <color name="gradient_5_bottom">#8529ff</color>
+
+    <color name="status_bar_6">#c84e52</color>
+    <color name="gradient_6_top">#ff7e7e</color>
+    <color name="gradient_6_bottom">#2be6ca</color>
+
+    <color name="status_bar_7">#ca53b7</color>
+    <color name="gradient_7_top">#ff85ea</color>
+    <color name="gradient_7_bottom">#0f9fc7</color>
 
 </resources>

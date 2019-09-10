@@ -31,12 +31,10 @@ class AudioListFragment : Fragment() {
         }
     }
 
-    lateinit var subscription: Disposable
     private lateinit var viewModel: AudioListViewModel
     private lateinit var adapter: AudioListAdapter
     private lateinit var author: String
     private var listener: MediaListener? = null
-
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -85,6 +83,7 @@ class AudioListFragment : Fragment() {
     }
 
     private fun updateList(audios: List<Audio>) {
+        progressBar.visibility = View.GONE
         adapter.setAudios(audios)
     }
 
