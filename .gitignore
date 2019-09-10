@@ -35,3 +35,14 @@ local.properties
 .Trashes
 ehthumbs.db
 Thumbs.db
+build/intermediates/lint-cache/maven.google/master-index.xml
+build/intermediates/lint-cache/maven.google/androidx/appcompat/group-index.xml
+build/intermediates/lint-cache/maven.google/androidx/constraintlayout/group-index.xml
+build/intermediates/lint-cache/maven.google/androidx/core/group-index.xml
+build/intermediates/lint-cache/maven.google/androidx/legacy/group-index.xml
+build/intermediates/lint-cache/maven.google/androidx/lifecycle/group-index.xml
+build/intermediates/lint-cache/maven.google/androidx/test/group-index.xml
+build/intermediates/lint-cache/maven.google/androidx/test/espresso/group-index.xml
+build/intermediates/lint-cache/maven.google/com/google/android/material/group-index.xml
+build/intermediates/lint-cache/maven.google/com/google/firebase/group-index.xml
+build/intermediates/lint-cache/sdk-registry.xml/sdk-registry.xml
