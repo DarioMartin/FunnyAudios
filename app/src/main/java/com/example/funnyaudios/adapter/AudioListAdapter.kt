@@ -103,6 +103,7 @@ class AudioListAdapter(val listener: MediaListener?) :
                 handler.removeCallbacks(runnable)
                 listener?.onPlayClicked(audios[position])
             }
+            itemView.share.setOnClickListener { listener?.share(audios[position]) }
             itemView.duration.text = audio?.duration
             itemView.seekbar.isEnabled = false
             itemView.seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {

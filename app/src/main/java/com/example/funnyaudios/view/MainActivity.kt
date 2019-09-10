@@ -4,7 +4,6 @@ import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,13 +13,15 @@ import com.example.funnyaudios.model.Audio
 import com.example.funnyaudios.viewmodel.MainViewModel
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_main.*
+import androidx.core.app.ShareCompat
+
 
 interface MediaListener {
     fun onPlayClicked(audio: Audio)
     fun onSeek(progress: Int)
     fun needUpdate()
+    fun share(audio: Audio)
 }
 
 class MainActivity : AppCompatActivity(), MediaListener {
@@ -124,6 +125,16 @@ class MainActivity : AppCompatActivity(), MediaListener {
     override fun onDestroy() {
         super.onDestroy()
         killMediaPlayer()
+    }
+
+    override fun share(audio: Audio) {
+        val shareIntent = ShareCompat.IntentBuilder.from(this)
+            .setType("text/plain")
+            .setText("Escucha ${audio.name} de ${audio.author}: ${audio.url}")
+            .intent
+        if (shareIntent.resolveActivity(packageManager) != null) {
+            startActivity(shareIntent)
+        }
     }
 }
 
